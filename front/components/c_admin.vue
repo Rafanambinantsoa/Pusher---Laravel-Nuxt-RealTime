@@ -22,10 +22,27 @@ export default {
             messages: [],
         };
     },
-    mounted() {
+    async mounted() {
+        try {
+            const res = await axios.get('http://192.168.0.131:8000/api/messages');
+            const messages = res.json()
+            this.messages = messages
+        } catch (error) {
+            console.log(error);
+        }
+
         this.$echo.channel('my-channel')
             .listen('.my-event', (data) => {
-                this.messages.push(JSON.stringify(data.message));
+                const mess = this.messages.push(JSON.stringify(data.message));
+
+                //insert  the mess in to api 
+                axios.post('http://192.168.0.131:8000/api/messages', { content: mess })
+                    .then((res) => {
+                        console.log(res.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             });
     },
 };

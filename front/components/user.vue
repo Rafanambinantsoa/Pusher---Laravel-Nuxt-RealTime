@@ -19,7 +19,9 @@ export default {
     },
     methods: {
         async send() {
+            
             let res = await axios.post('http://localhost:8000/api/submit-remarq', { remarq: this.remarq })
+            console.log("cliqued");
             console.log(res.data);
             this.remarq = ""
         }

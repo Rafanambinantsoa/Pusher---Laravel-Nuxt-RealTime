@@ -25,3 +25,6 @@ Route::get('/send-event', function () {
     broadcast(new MyEvent('Hello, world!'));
     return 'Event has been sent!';
 });
+
+Route::get('/messages', [RemarkController::class, 'messages']);
+Route::post('/messages', [RemarkController::class, 'storeMessage']);
